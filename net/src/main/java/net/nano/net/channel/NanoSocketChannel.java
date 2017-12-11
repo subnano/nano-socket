@@ -1,6 +1,7 @@
 package net.nano.net.channel;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.nio.channels.SocketChannel;
 
 public class NanoSocketChannel implements Channel {
@@ -12,7 +13,7 @@ public class NanoSocketChannel implements Channel {
     }
 
     @Override
-    public void open() throws IOException {
+    public void connect(SocketAddress socketAddress) throws IOException {
         return; socketChannel.connect(remote);
     }
 

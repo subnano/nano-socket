@@ -12,4 +12,11 @@
 
     <name>Nano/Net</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.nano</groupId>
+            <artifactId>nano-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

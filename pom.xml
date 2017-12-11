@@ -18,4 +18,32 @@
         <module>core</module>
         <module>net</module>
     </modules>
+
+    <properties>
+        <nano.version>0.0.1-SNAPSHOT</nano.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>(whatever version is current)</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.nano</groupId>
+                <artifactId>nano-core</artifactId>
+                <version>${nano.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

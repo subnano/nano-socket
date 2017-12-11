@@ -1,39 +1,62 @@
 package net.nano.net.client;
 
+import net.nano.net.channel.Channel;
 import net.nano.net.socket.SocketChannelFactory;
 import net.nano.net.socket.SocketConfig;
 import net.nano.net.socket.SocketUtil;
 
 import java.io.IOException;
 import java.net.SocketAddress;
-import java.nio.channels.SocketChannel;
 
 public class AbstractNanoClient implements NanoClient {
 
     private final SocketConfig socketConfig;
     private final SocketChannelFactory socketChannelFactory;
 
+    private Channel channel;
+
     public AbstractNanoClient(SocketConfig socketConfig, SocketChannelFactory socketChannelFactory) {
         this.socketConfig = socketConfig;
         this.socketChannelFactory = socketChannelFactory;
     }
 
+    @Override
     public void connect() {
         try {
-            SocketChannel channel = socketChannelFactory.createSocketChannel();
+            this.channel = socketChannelFactory.createSocketChannel();
             SocketAddress socketAddress = SocketUtil.getSocketAddress(socketConfig);
             channel.connect(socketAddress);
-            connectionOpened();
+            channelOpened();
         } catch (IOException e) {
-            connectionFailed(e);
+            channelOpenFailed(e);
         }
     }
 
-    private void connectionOpened() {
+    @Override
+    public void disconnect() {
+        if (channel != null) {
+            try {
+                channel.close();
+                channelClosed();
+            } catch (IOException e) {
+                channelCloseFailed(e);
+            }
+        }
+    }
+
+    private void channelOpened() {
         // TODO notify channel handlers
     }
 
-    private void connectionFailed(Throwable cause) {
+    private void channelOpenFailed(Throwable cause) {
+        // TODO notify channel handlers
+    }
+
+    private void channelClosed() {
+        // TODO notify channel handlers
+    }
+
+    private void channelCloseFailed(Throwable cause) {
         // TODO notify channel handlers
     }
 
