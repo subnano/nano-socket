@@ -17,10 +17,12 @@
     <modules>
         <module>core</module>
         <module>net</module>
+        <module>example</module>
     </modules>
 
     <properties>
         <nano.version>0.0.1-SNAPSHOT</nano.version>
+        <slf4j-api.version>1.7.10</slf4j-api.version>
     </properties>
 
     <build>
@@ -28,7 +30,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>(whatever version is current)</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -44,6 +45,13 @@
                 <artifactId>nano-core</artifactId>
                 <version>${nano.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

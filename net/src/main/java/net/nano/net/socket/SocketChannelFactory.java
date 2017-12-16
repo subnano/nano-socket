@@ -1,13 +1,12 @@
 package net.nano.net.socket;
 
-import net.nano.net.channel.Channel;
-
 import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 
 public interface SocketChannelFactory {
 
-    Channel createSocketChannel() throws IOException;
+    SocketChannel createSocketChannel() throws IOException;
 
     ServerSocketChannel createServerSocketChannel() throws IOException;
 
