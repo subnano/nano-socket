@@ -15,7 +15,7 @@ public class BufferUtil {
     }
 
     /**
-     * Returns a hex dump     * of the given buffer's readable bytes.
+     * Returns a hex dump of the given buffer's readable bytes.
      */
     public static String hexDump(ByteBuffer buffer) {
         // TODO avoid this object creation

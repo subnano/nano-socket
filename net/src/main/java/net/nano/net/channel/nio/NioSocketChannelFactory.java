@@ -1,4 +1,4 @@
-package net.nano.net.socket;
+package net.nano.net.channel.nio;
 
 import java.io.IOException;
 import java.nio.channels.ServerSocketChannel;

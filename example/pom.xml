@@ -16,7 +16,11 @@
         <dependency>
             <groupId>net.nano</groupId>
             <artifactId>nano-net</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hdrhistogram</groupId>
+            <artifactId>HdrHistogram</artifactId>
         </dependency>
 
 <!--        <dependency>

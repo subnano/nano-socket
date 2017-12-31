@@ -5,22 +5,22 @@ import java.nio.ByteBuffer;
 public class BaseChannelHandler implements ChannelHandler {
 
     @Override
-    public void opened(Channel channel) {
+    public void connected(Channel channel) {
         // NO-OP
     }
 
     @Override
-    public void openFailed(Channel channel, Throwable cause) {
+    public void connectFailed(Channel channel, Throwable cause) {
         // NO-OP
     }
 
     @Override
-    public void closed(Channel channel) {
+    public void disconnected(Channel channel) {
         // NO-OP
     }
 
     @Override
-    public void closeFailed(Channel channel, Throwable cause) {
+    public void disconnectFailed(Channel channel, Throwable cause) {
         // NO-OP
     }
 

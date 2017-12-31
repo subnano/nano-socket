@@ -11,23 +11,23 @@ public class LoggingChannelHandler implements ChannelHandler {
     public static final Logger LOGGER = LoggerFactory.getLogger(LoggingChannelHandler.class);
 
     @Override
-    public void opened(Channel channel) {
-        LOGGER.info("{} OPEN", channel);
+    public void connected(Channel channel) {
+        LOGGER.info("{} CONNECT", channel);
     }
 
     @Override
-    public void openFailed(Channel channel, Throwable cause) {
-        LOGGER.info("OPEN FAILED - {}", channel, cause);
+    public void connectFailed(Channel channel, Throwable cause) {
+        LOGGER.info("CONNECT FAILED - {}", channel, cause);
     }
 
     @Override
-    public void closed(Channel channel) {
-        LOGGER.info("{} CLOSED", channel);
+    public void disconnected(Channel channel) {
+        LOGGER.info("{} DISCONNECT", channel);
     }
 
     @Override
-    public void closeFailed(Channel channel, Throwable cause) {
-        LOGGER.info("{} CLOSE FAILED - {}", channel, cause);
+    public void disconnectFailed(Channel channel, Throwable cause) {
+        LOGGER.info("{} DISCONNECT FAILED - {}", channel, cause);
     }
 
     @Override

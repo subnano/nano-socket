@@ -1,5 +1,7 @@
 package net.nano.net.channel;
 
+import net.nano.net.reactor.Reactor;
+
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.net.StandardSocketOptions;
@@ -7,85 +9,107 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SocketChannel;
 
-// TODO add support for blocking AND non-blocking operation
-public class NanoSocketChannel implements Channel {
+public class NanoSocketChannel extends AbstractNanoChannel implements Channel {
 
     private final SocketChannel socketChannel;
 
-    // TODO need to pass in buffer or allocator
+    // TODO need to pass in NanoBuffer or allocator
     private ByteBuffer inboundBuffer = ByteBuffer.allocateDirect(512).order(ByteOrder.nativeOrder());
     private ByteBuffer outboundBuffer = ByteBuffer.allocateDirect(512).order(ByteOrder.nativeOrder());
 
     public NanoSocketChannel(SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
+        initChannel(socketChannel);
     }
 
-    @Override
-    public boolean connect(SocketAddress socketAddress) throws IOException {
-        setOptions();
-        // TODO if interface specified then bind first
-        socketChannel.configureBlocking(false);
-        boolean connected = socketChannel.connect(socketAddress);
-        if (!connected) {
-            // TODO convert to non blocking selectors
-            connected = socketChannel.finishConnect();
+    private void initChannel(SocketChannel socketChannel) {
+        try {
+            socketChannel.configureBlocking(false);
+        } catch (IOException e) {
+            throw new ChannelException("Cannot configure non-blocking mode.", e);
         }
-        return connected;
-    }
 
-    // not sure yet where to put this
-    private void setOptions() throws IOException {
-        socketChannel.setOption(StandardSocketOptions.SO_KEEPALIVE, false);
-        socketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
+        // TODO not sure yet where to set socket options
+        try {
+            socketChannel.setOption(StandardSocketOptions.SO_KEEPALIVE, false);
+            socketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+            socketChannel.setOption(StandardSocketOptions.TCP_NODELAY, true);
+        } catch (Exception e) {
+            throw new ChannelException("Cannot set socket options.", e);
+        }
     }
 
     @Override
-    public boolean isOpen() {
+    public final void connect(SocketAddress socketAddress) throws IOException {
+        // TODO bind to network interface if specified
+        socketChannel.connect(socketAddress);
+    }
+
+    @Override
+    public final void register(Reactor reactor) {
+        if (reactor == null) {
+            throw new NullPointerException("reactor");
+        }
+        // TODO notify channel registered?
+    }
+
+    @Override
+    public final boolean isOpen() {
         return socketChannel.isOpen();
     }
 
     @Override
-    public boolean isConnected() {
+    public final boolean isConnected() {
         return socketChannel.isConnected();
     }
 
     @Override
-    public void close() throws IOException {
+    public final void disconnect() throws IOException {
         socketChannel.close();
     }
 
     @Override
-    public ByteBuffer inboundBuffer() {
+    public final ByteBuffer inboundBuffer() {
         return inboundBuffer;
     }
 
     @Override
-    public ByteBuffer outboundBuffer() {
+    public final ByteBuffer outboundBuffer() {
         return outboundBuffer;
     }
 
-    public int read() throws IOException {
+    public final int read() throws IOException {
+        // TODO update NanoBuffer indexes when reading into the ByteBuffer
         return socketChannel.read(inboundBuffer);
     }
 
     @Override
-    public void write() throws IOException {
+    public final int write() throws IOException {
         int bytesWritten = socketChannel.write(outboundBuffer);
+        return bytesWritten;
     }
 
     @Override
-    public SocketAddress localAddress() throws IOException {
+    public final SocketAddress localAddress() throws IOException {
         return socketChannel.getLocalAddress();
     }
 
     @Override
-    public SocketAddress remoteAddress() throws IOException {
+    public final SocketAddress remoteAddress() throws IOException {
         return socketChannel.getRemoteAddress();
     }
 
+    public boolean isConnectionPending() {
+        return socketChannel.isConnectionPending();
+    }
+
+    public boolean finishConnect() throws IOException {
+        return socketChannel.finishConnect();
+    }
 
     @Override
-    public String toString() {
+    public final String toString() {
+        // TODO create proper toString (@ctor)
         String address;
         try {
             address = remoteAddress().toString();
@@ -94,4 +118,5 @@ public class NanoSocketChannel implements Channel {
         }
         return "[" + address + "]";
     }
+
 }

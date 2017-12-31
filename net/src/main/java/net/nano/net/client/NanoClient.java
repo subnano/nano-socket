@@ -6,7 +6,7 @@ public interface NanoClient {
 
     void disconnect();
 
-    public static NanoClientBuilder newBuilder() {
+    static NanoClientBuilder builder() {
         return new NanoClientBuilder();
     }
 }

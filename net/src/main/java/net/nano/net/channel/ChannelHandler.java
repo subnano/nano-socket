@@ -3,13 +3,13 @@ package net.nano.net.channel;
 import java.nio.ByteBuffer;
 
 public interface ChannelHandler {
-    void opened(Channel channel);
+    void connected(Channel channel);
 
-    void openFailed(Channel channel, Throwable cause);
+    void connectFailed(Channel channel, Throwable cause);
 
-    void closed(Channel channel);
+    void disconnected(Channel channel);
 
-    void closeFailed(Channel channel, Throwable cause);
+    void disconnectFailed(Channel channel, Throwable cause);
 
     void dataReceived(Channel channel, ByteBuffer byteBuffer);
 

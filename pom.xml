@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>net.nano</groupId>
-    <artifactId>nano-parent</artifactId>
+    <artifactId>nano</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -22,7 +22,9 @@
 
     <properties>
         <nano.version>0.0.1-SNAPSHOT</nano.version>
+        <hdrhistogram.version>2.1.10</hdrhistogram.version>
         <slf4j-api.version>1.7.10</slf4j-api.version>
+        <junit-jupiter.version>5.0.2</junit-jupiter.version>
     </properties>
 
     <build>
@@ -45,11 +47,28 @@
                 <artifactId>nano-core</artifactId>
                 <version>${nano.version}</version>
             </dependency>
+            <dependency>
+                <groupId>net.nano</groupId>
+                <artifactId>nano-net</artifactId>
+                <version>${nano.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${hdrhistogram.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-api.version}</version>
+            </dependency>
+
+            <!--test dependencies-->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
             </dependency>
 
         </dependencies>
